@@ -4,15 +4,62 @@
 \usepackage[T1]{fontenc}
 \usepackage{lmodern,bm,tgpagella}
 \usepackage{textcomp}
+\usepackage{tikz}
 
 \useinnertheme{rectangles}
 \usecolortheme[accent=red]{solarized}
 \beamertemplatenavigationsymbolsempty
 \setbeamertemplate{footline}[frame number]
 
+\newcommand\commit[2]{\node[commit] (#1) {}; \node[clabel] (#1 label) at (#1) {\texttt{#1}: #2};}
+\newcommand\ghost[1]{\coordinate (#1);}
+\newcommand\connect[2]{\path[connections] (#1) to[out=90,in=-90] (#2);}
+\newcommand\gittag[1]{%
+ \begin{tikzpicture}[baseline]
+  \node[fill=solarizedRebase02, rounded corners, inner sep=1pt, anchor=base] {\color{solarizedYellow}\vphantom{|}#1};
+ \end{tikzpicture}%
+}
+\newcommand\branch[1]{%
+ \begin{tikzpicture}[baseline]
+  \node[fill=solarizedRebase02, rounded corners, inner sep=1pt, anchor=base] {\color{solarizedRed}\vphantom{|}#1};
+ \end{tikzpicture}%
+}
+
 \author{Elliott Sales de Andrade}
 \title{CIG Seismo Code on Git/GitHub}
 \institute{University of Toronto}
+\titlegraphic{%
+ \begin{tikzpicture}
+  \tikzstyle{commit}=[draw, circle, fill=solarizedViolet, inner sep=0pt, minimum size=5pt]
+  \tikzstyle{clabel}=[right, outer sep=1em]
+  \tikzstyle{connections}=[draw, solarizedViolet]
+  \useasboundingbox (-1,1em) rectangle (1,8em); % Mysteriously chosen to fit nicely...
+  \matrix [column sep={1em,between origins}, row sep=\lineskip, ampersand replacement=\&]%
+  {
+   \commit{cd83b68}{\gittag{v6.0.0} \branch{master} submodules updated} \& \& \\
+   \commit{170e5f7}{Update submodules in master} \& \& \\
+   \commit{c0bc5ba}{Merge remote-tracking branch `origin/devel'} \& \& \\
+   \& \commit{754300e}{Update README.md} \& \\
+   \& \commit{40bcfdd}{Merge pull request \#68 from QuLogic/readme} \& \\
+   \& \& \commit{e2f2928}{section-ify readme file.} \\
+   \& \& \commit{eb6066e}{change to markdown so github linkifies stuff.} \\
+   \& \& \commit{5babcb0}{add links to submodules in readme.} \\
+   \& \commit{2b70a18}{merge pull request \#67 from komatits/devel} \& \\
+   \ghost{5e338b5} \& \& \\
+  };
+  \connect{170e5f7}{cd83b68};
+  \connect{c0bc5ba}{170e5f7};
+  \connect{754300e}{c0bc5ba};
+  \connect{40bcfdd}{754300e};
+  \connect{e2f2928}{40bcfdd};
+  \connect{eb6066e}{e2f2928};
+  \connect{5babcb0}{eb6066e};
+  \connect{2b70a18}{5babcb0};
+  \connect{2b70a18}{40bcfdd};
+  \connect{5e338b5}{2b70a18};
+  \connect{5e338b5}{c0bc5ba};
+ \end{tikzpicture}%
+}
 
 \begin{document}
 
