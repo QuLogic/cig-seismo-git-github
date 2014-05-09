@@ -79,6 +79,89 @@
 \begin{frame}
  \frametitle{Introduction}
 
+ \begin{itemize}
+  \item CIG is transitioning code from Subversion to Git
+  \item Also shifting most hosting to \href{https://github.com/}{GitHub}
+  \item All Seismology code has been migrated:
+   \begin{itemize}
+    \item \href{https://github.com/geodynamics/specfem1d}{Specfem1D}
+    \item \href{https://github.com/geodynamics/specfem2d}{Specfem2D}
+    \item \href{https://github.com/geodynamics/specfem3d}{Specfem3D}
+    \item \href{https://github.com/geodynamics/specfem3d_globe}{Specfem3D Globe}
+    \item \href{https://github.com/geodynamics/mineos}{Mineos}
+    \item \href{https://github.com/geodynamics/flexwin}{Flexwin}
+    \item \href{https://github.com/geodynamics/axisem}{AxiSEM}
+   \end{itemize}
+  \item Also code for
+        \href{http://geodynamics.org/cig/software/\#cs}{Computational Science},
+        \href{http://geodynamics.org/cig/software/\#geodyn}{Geodynamo},
+        \href{http://geodynamics.org/cig/software/\#long}{Long-Term Tectonics},
+        \href{http://geodynamics.org/cig/software/\#mc}{Mantle Convection},
+        \href{http://geodynamics.org/cig/software/\#short}{Short-Term Crustal
+        Dynamics}
+ \end{itemize}
+\end{frame}
+
+\subsection{What is Git?}
+
+\begin{frame}
+ \frametitle{Introduction}
+ \framesubtitle{What is Git?}
+
+ The stupid content tracker\footnotemark
+ \begin{itemize}
+  \item \href{http://git-scm.com/about/distributed}{Distributed}
+   \begin{itemize}
+    \item Multiple backups
+    \item Flexible workflow
+   \end{itemize}
+  \item \href{http://git-scm.com/about/branching-and-merging}{Quick and easy
+        branching}
+   \begin{itemize}
+    \item Frictionless context switching
+    \item Role-based codelines
+    \item Feature based workflow
+    \item Disposable experimentation
+   \end{itemize}
+  \item \href{http://git-scm.com/about/small-and-fast}{Small and fast}
+        --- One or two orders of magnitude faster than SVN (except cloning)
+  \item \href{http://git-scm.com/about/info-assurance}{Repository integrity}
+        --- Files, commit messages, dates
+  \item \href{http://git-scm.com/about/staging-area}{Staging area}
+        --- Flexible committing
+  \item \href{http://git-scm.com/about/free-and-open-source}{Free and open
+        source} --- GNU GPL 2.0
+ \end{itemize}
+
+ \footnotetext{\url{http://git-scm.com/about/}}
+\end{frame}
+
+\subsection{What is GitHub?}
+
+\begin{frame}
+ \frametitle{Introduction}
+ \framesubtitle{What is GitHub?}
+
+ Provides hosting and resources for open source software:
+ \begin{itemize}
+  \item Issue tracking
+   \begin{itemize}
+    \item Tasks
+    \item Features
+    \item Pull requests
+    \item etc.
+   \end{itemize}
+  \item Code review
+   \begin{itemize}
+    \item Commit comments,
+    \item Pull requests,
+    \item Diffs,
+    \item etc.
+   \end{itemize}
+  \item Wikis
+  \item Collaborative tools
+  \item Statistics
+ \end{itemize}
 \end{frame}
 
 \section{Using CIG Code from Git}
