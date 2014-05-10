@@ -5,7 +5,7 @@
 \usepackage{lmodern,tgadventor}
 \usepackage{textcomp}
 \usepackage{tikz}
-\usetikzlibrary{fadings}
+\usetikzlibrary{backgrounds,decorations.text,fadings,trees}
 
 \useinnertheme{rectangles}
 \usecolortheme[accent=red]{solarized}
@@ -29,6 +29,15 @@
     \color{solarizedRed}\vphantom{|}#1
    };
  \end{tikzpicture}%
+}
+
+% http://tex.stackexchange.com/questions/55806/tikzpicture-in-beamer/55827#55827
+\tikzset{
+  invisible/.style={opacity=0},
+  visible on/.style={alt=#1{}{invisible}},
+  alt/.code args={<#1>#2#3}{%
+    \alt<#1>{\pgfkeysalso{#2}}{\pgfkeysalso{#3}}
+  },
 }
 
 \author{Elliott Sales de Andrade}
@@ -170,6 +179,225 @@
   \item Collaborative tools
   \item Statistics
  \end{itemize}
+\end{frame}
+
+\subsection{Version Control Basics}
+
+%
+% SVN Checkout
+%
+
+\begin{frame}
+ \frametitle{Version Control with Subversion}
+ \framesubtitle{Checkout}
+
+ \begin{columns}
+  \begin{column}{0.3\textwidth}
+   \begin{tikzpicture}[
+      remember picture,
+      show background rectangle,
+      commit/.style={draw, rectangle, rounded corners, fill=solarizedRebase02,
+                     inner sep=1pt, minimum width=1.5em},
+      connections/.style={draw}
+    ]
+    \matrix [column sep={1em,between origins}, row sep={1.5em,between origins},
+             ampersand replacement=\&]%
+    {
+     \ghost{name}; \\
+     \node[commit, visible on=<3->] (9) {9}; \\
+     \node[commit, visible on=<3->] (8) {8}; \\
+     \node[commit] (7) {7}; \\
+     \node[commit] (6) {6}; \\
+     \node[commit] (5) {5}; \\
+     \node[commit] (4) {4}; \\
+     \node[commit] (3) {3}; \\
+     \node[commit] (2) {2}; \\
+     \ghost{1}; \\
+    };
+    \node[anchor=south,align=center] at (name) {Central\\Repository};
+    \foreach \x in {2,...,7} {
+     \pgfmathparse{int(\x-1)}
+     \connect{\pgfmathresult}{\x};
+    }
+    \path[connections, visible on=<3->] (7) to[out=90,in=-90] (8);
+    \path[connections, visible on=<3->] (8) to[out=90,in=-90] (9);
+   \end{tikzpicture}
+  \end{column}
+  \begin{column}{0.5\textwidth}
+   \begin{tikzpicture}[%
+      remember picture,
+      show background rectangle,
+      background rectangle/.style={draw, visible on=<3->},
+      visible on=<3->,
+      every node/.style={anchor=west, minimum height=1em,
+                         font={\scriptsize\ttfamily}, inner sep=2.5pt},
+      every edge/.style={thick},
+      root/.style={},
+      grow via three points={one child at (0.25,-1em) and
+                             two children at (0.25,-1em) and (0.25,-1.75em)},
+      edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}
+    ]
+    \node [root] (A root) {specfem3d\_globe}
+     child { node {DATA} }
+     child { node {doc} }
+     child { node {EXAMPLES} }
+     child { node {setup} }
+     child { node {src} }
+     child { node {utils} }
+     child { node {\dots} };
+    \node[anchor=south, font={\sffamily}, align=center] at (A root.north)
+     {Elliott's\\Working Directory};
+   \end{tikzpicture}
+
+   \hfill
+   \begin{tikzpicture}[%
+      remember picture,
+      show background rectangle,
+      background rectangle/.style={draw, visible on=<2->},
+      visible on=<2->,
+      every node/.style={anchor=west, minimum height=1em,
+                         font={\scriptsize\ttfamily}, inner sep=2.5pt},
+      every edge/.style={thick},
+      root/.style={},
+      grow via three points={one child at (0.25,-1em) and
+                             two children at (0.25,-1em) and (0.25,-1.75em)},
+      edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}
+    ]
+    \node [root] (B root) {specfem3d\_globe}
+     child { node {DATA} }
+     child { node {doc} }
+     child { node {EXAMPLES} }
+     child { node {setup} }
+     child { node {src} }
+     child { node {utils} }
+     child { node {\dots} };
+    \node[anchor=south, font={\sffamily}, align=center] at (B root.north)
+     {Piero's\\Working Directory};
+   \end{tikzpicture}
+  \end{column}
+ \end{columns}
+
+ \begin{tikzpicture}[
+    remember picture, overlay,
+    path/.style={thick, ->},
+    label/.style={decorate, decoration={text along path, text align=center,
+                                        text color=solarizedRebase0,
+                                        transform={yshift=1pt},
+                                        text={svn checkout}}}
+  ]
+  \draw<3->[path] (9.east) to[out=0,in=180] (A root.west);
+  \draw<3->[label] (9.east) to[out=0,in=180] (A root.west);
+  \draw<2->[path] (7.east) to[out=0,in=180] (B root.west);
+  \draw<2>[label] (7.east) to[out=0,in=180] (B root.west);
+ \end{tikzpicture}
+\end{frame}
+
+%
+% SVN Commit
+%
+
+\begin{frame}
+ \frametitle{Version Control with Subversion}
+ \framesubtitle{Commits}
+
+ \begin{columns}
+  \begin{column}{0.3\textwidth}
+   \begin{tikzpicture}[
+      remember picture,
+      show background rectangle,
+      commit/.style={draw, rectangle, rounded corners, fill=solarizedRebase02,
+                     inner sep=1pt, minimum width=1.5em},
+      connections/.style={draw}
+    ]
+    \matrix [column sep={1em,between origins}, row sep={1.5em,between origins},
+             ampersand replacement=\&]%
+    {
+     \node[commit, visible on=<3->] (name) {10}; \\
+     \node[commit] (9) {9}; \\
+     \node[commit] (8) {8}; \\
+     \node[commit] (7) {7}; \\
+     \node[commit] (6) {6}; \\
+     \node[commit] (5) {5}; \\
+     \node[commit] (4) {4}; \\
+     \node[commit] (3) {3}; \\
+     \node[commit] (2) {2}; \\
+     \ghost{1}; \\
+    };
+    \node[anchor=south, align=center] at (name) {Central\\Repository};
+    \foreach \x in {2,...,9} {
+     \pgfmathparse{int(\x-1)}
+     \connect{\pgfmathresult}{\x};
+    }
+    \path[connections, visible on=<3->] (9) -- (name);
+   \end{tikzpicture}
+  \end{column}
+  \begin{column}{0.5\textwidth}
+   \begin{tikzpicture}[%
+      remember picture,
+      show background rectangle,
+      every node/.style={anchor=west, minimum height=1em,
+                         font={\scriptsize\ttfamily}, inner sep=2.5pt},
+      every edge/.style={thick},
+      root/.style={},
+      grow via three points={one child at (0.25,-1em) and
+                             two children at (0.25,-1em) and (0.25,-1.75em)},
+      edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}
+    ]
+    \node [root] (A root) {specfem3d\_globe}
+     child { node {DATA} }
+     child { node {doc} }
+     child { node {EXAMPLES} }
+     child { node {setup} }
+     child { node {src} }
+     child { node {utils} }
+     child { node {\dots} };
+    \node[anchor=south, font={\sffamily}, align=center] at (A root.north)
+     {Elliott's\\Working Directory};
+   \end{tikzpicture}
+
+   \hfill
+   \begin{tikzpicture}[%
+      remember picture,
+      show background rectangle,
+      background rectangle/.style={draw,visible on=<2-3>},
+      visible on=<2-3>,
+      every node/.style={anchor=west, minimum height=1em,
+                         font={\scriptsize\ttfamily}, inner sep=2.5pt},
+      every edge/.style={thick},
+      root/.style={},
+      grow via three points={one child at (0.25,-1em) and
+                             two children at (0.25,-1em) and (0.25,-1.75em)},
+      edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}
+    ]
+    \node [root] (B root) {specfem3d\_globe}
+     child { node {DATA} }
+     child { node {doc} }
+     child { node {EXAMPLES} }
+     child { node {setup} }
+     child { node {\itshape src} }
+     child { node {utils} }
+     child { node {\dots} };
+    \node[anchor=south, font={\sffamily}, align=center] at (B root.north)
+     {Modified\\Working Directory};
+   \end{tikzpicture}
+  \end{column}
+ \end{columns}
+
+ \begin{tikzpicture}[
+    remember picture, overlay,
+    path/.style={thick, ->},
+    label/.style={decorate, decoration={text along path, text align=center,
+                                        text color=solarizedRebase0}}
+  ]
+  \draw<1-3>[path] (9.east) to[out=0,in=180] (A root.west);
+  \draw<2-3>[path] (A root.east) to[out=0,in=0] (B root.east);
+  \draw<2>[label, decoration={transform={yshift=1pt}, text={Editing}}]
+   (A root.east) to[out=0,in=0] (B root.east);
+  \draw<3>[path] (B root.west) to[out=180,in=0] (name.east);
+  \draw<3>[label, decoration={transform={yshift=-1em}, text={svn commit}}]
+   (name.east) to[out=0,in=180] (B root.west);
+  \draw<4->[path] (name.east) to[out=0,in=180] (A root.west);
+ \end{tikzpicture}
 \end{frame}
 
 \section{Using CIG Code from Git}
