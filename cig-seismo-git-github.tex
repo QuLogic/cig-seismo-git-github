@@ -188,7 +188,7 @@
 %
 
 \begin{frame}
- \frametitle{Version Control with Subversion}
+ \frametitle{Version Control Concepts with Subversion}
  \framesubtitle{Checkout}
 
  \begin{columns}
@@ -204,6 +204,7 @@
              ampersand replacement=\&]%
     {
      \ghost{name}; \\
+     \ghost{10}; \\
      \node[commit, visible on=<3->] (9) {9}; \\
      \node[commit, visible on=<3->] (8) {8}; \\
      \node[commit] (7) {7}; \\
@@ -214,7 +215,7 @@
      \node[commit] (2) {2}; \\
      \ghost{1}; \\
     };
-    \node[anchor=south,align=center] at (name) {Central\\Repository};
+    \node[anchor=south, align=center] at (name) {Central\\Repository};
     \foreach \x in {3,...,7} {
      \pgfmathparse{int(\x-1)}
      \connect{\pgfmathresult}{\x};
@@ -224,7 +225,7 @@
     \path[connections, visible on=<3->] (8) -- (9);
    \end{tikzpicture}
   \end{column}
-  \begin{column}{0.5\textwidth}
+  \begin{column}{0.6\textwidth}
    \begin{tikzpicture}[%
       remember picture,
       show background rectangle,
@@ -283,7 +284,7 @@
     path/.style={thick, ->},
     label/.style={decorate, decoration={text along path, text align=center,
                                         text color=solarizedRebase0,
-                                        transform={yshift=1pt},
+                                        raise=1pt,
                                         text={svn checkout}}}
   ]
   \draw<2->[path] (7.east) to[out=0,in=180] (P root.west);
@@ -298,7 +299,7 @@
 %
 
 \begin{frame}
- \frametitle{Version Control with Subversion}
+ \frametitle{Version Control Concepts with Subversion}
  \framesubtitle{Commits}
 
  \begin{columns}
@@ -313,7 +314,8 @@
     \matrix [column sep={1em,between origins}, row sep={1.5em,between origins},
              ampersand replacement=\&]%
     {
-     \node[commit, visible on=<3->] (repository) {10}; \\
+     \ghost{name}; \\
+     \node[commit, visible on=<3->] (10) {10}; \\
      \node[commit] (9) {9}; \\
      \node[commit] (8) {8}; \\
      \node[commit] (7) {7}; \\
@@ -324,16 +326,16 @@
      \node[commit] (2) {2}; \\
      \ghost{1}; \\
     };
-    \node[anchor=south, align=center] at (repository) {Central\\Repository};
+    \node[anchor=south, align=center] at (name) {Central\\Repository};
     \foreach \x in {3,...,9} {
      \pgfmathparse{int(\x-1)}
      \connect{\pgfmathresult}{\x};
     }
     \path[connections, densely dashed] (1) -- (2);
-    \path[connections, visible on=<3->] (9) -- (repository);
+    \path[connections, visible on=<3->] (9) -- (10);
    \end{tikzpicture}
   \end{column}
-  \begin{column}{0.5\textwidth}
+  \begin{column}{0.6\textwidth}
    \begin{tikzpicture}[%
       remember picture,
       show background rectangle,
@@ -391,14 +393,333 @@
     label/.style={decorate, decoration={text along path, text align=center,
                                         text color=solarizedRebase0}}
   ]
-  \draw<1-3>[path] (9.east) to[out=0,in=180] (E root.west);
+  \draw<1-2>[path] (9.east) to[out=0,in=180] (E root.west);
   \draw<2-3>[path] (E root.east) to[out=0,in=0] (M root.east);
-  \draw<2>[label, decoration={transform={yshift=1pt}, text={Editing}}]
+  \draw<2>[label, decoration={raise=1pt, text={Editing}}]
    (E root.east) to[out=0,in=0] (M root.east);
-  \draw<3>[path] (M root.west) to[out=180,in=0] (repository.east);
-  \draw<3>[label, decoration={transform={yshift=-1em}, text={svn commit}}]
-   (repository.east) to[out=0,in=180] (M root.west);
-  \draw<4->[path] (repository.east) to[out=0,in=180] (E root.west);
+  \draw<3>[path, dashed] (9.east) to[out=0,in=180] (E root.west);
+  \draw<3>[path] (M root.west) to[out=180,in=0] (10.east);
+  \draw<3>[label, decoration={raise=-1em, text={svn commit}}]
+   (10.east) to[out=0,in=180] (M root.west);
+  \draw<4->[path] (10.east) to[out=0,in=180] (E root.west);
+ \end{tikzpicture}
+\end{frame}
+
+%
+% Git Cloning
+%
+
+\begin{frame}
+ \frametitle{Version Control Concepts with Git}
+ \framesubtitle{Cloning}
+
+ \begin{columns}
+  \begin{column}{0.3\textwidth}
+   \begin{tikzpicture}[
+     remember picture,
+     show background rectangle,
+     commit/.style={draw, rectangle, rounded corners, fill=solarizedRebase02,
+                    inner sep=1pt, minimum width=1.5em},
+     connections/.style={draw}
+    ]
+    \matrix [column sep={1em,between origins}, row sep={1.5em,between origins},
+             ampersand replacement=\&]%
+    {
+     \ghost{name}; \\
+     \ghost{10}; \\
+     \node[commit, visible on=<3->] (9) {9}; \\
+     \node[commit, visible on=<3->] (8) {8}; \\
+     \node[commit] (7) {7}; \\
+     \node[commit] (6) {6}; \\
+     \node[commit] (5) {5}; \\
+     \node[commit] (4) {4}; \\
+     \node[commit] (3) {3}; \\
+     \node[commit] (2) {2}; \\
+     \ghost{1}; \\
+    };
+    \node[anchor=south, align=center] (repository) at (name)
+     {Central\\Repository};
+    \foreach \x in {3,...,7} {
+     \pgfmathparse{int(\x-1)}
+     \connect{\pgfmathresult}{\x};
+    }
+    \path[connections, densely dashed] (1) -- (2);
+    \path[connections, visible on=<3->] (7) -- (8);
+    \path[connections, visible on=<3->] (8) -- (9);
+   \end{tikzpicture}
+  \end{column}
+  \begin{column}{0.6\textwidth}
+   \begin{tikzpicture}[%
+     remember picture,
+     show background rectangle,
+     background rectangle/.style={draw, visible on=<4->},
+     visible on=<4->
+    ]
+    \begin{scope}[
+      commit/.style={draw, circle, fill=solarizedRebase02,
+                     inner sep=0.5pt, minimum width=0.5em,
+                     font={\tiny\sffamily}},
+      connections/.style={draw}
+     ]
+     \matrix [column sep={1em,between origins}, row sep={1em,between origins},
+              ampersand replacement=\&]%
+     {
+      \node[commit] (E 9) {9}; \\
+      \node[commit] (E 8) {8}; \\
+      \node[commit] (E 7) {7}; \\
+      \node[commit] (E 6) {6}; \\
+      \node[commit] (E 5) {5}; \\
+     };
+     \node[anchor=south, align=center, font={\scriptsize}] at (E 9.north)
+      (E repository) {Local\\Repository};
+     \foreach \x in {6,...,9} {
+      \pgfmathparse{int(\x-1)}
+      \connect{E \pgfmathresult}{E \x};
+     }
+     \path[connections, densely dotted] (E 5.south) -- +(0,-0.5em);
+    \end{scope}
+    \begin{scope}[
+      every node/.style={anchor=west, minimum height=1em,
+                         font={\tiny\ttfamily}, inner sep=2.5pt},
+      every edge/.style={thick},
+      root/.style={},
+      grow via three points={one child at (0.25,-0.75em) and
+                             two children at (0.25,-.75em) and (0.25,-1.25em)},
+      edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}
+     ]
+     \node[anchor=west, font={\scriptsize\sffamily}, align=center, xshift=1em]
+      at (E repository.east) (E work) {Working\\Directory};
+     \node [root, anchor=north] at (E work.south) (E root) {specfem3d\_globe}
+      child { node {DATA} }
+      child { node {doc} }
+      child { node {EXAMPLES} }
+      child { node {setup} }
+      child { node {src} }
+      child { node {utils} }
+      child { node {\dots} };
+    \end{scope}
+    \node[anchor=south, shift={(0.5em,1em)}] at (E repository.east)
+     {Elliott's Computer};
+    \draw[->] (E 9.east) to[out=0,in=180] (E root.west);
+   \end{tikzpicture}
+
+   \hfill
+   \begin{tikzpicture}[%
+     remember picture,
+     show background rectangle,
+     background rectangle/.style={draw, visible on=<2->},
+     visible on=<2->
+    ]
+    \begin{scope}[
+      commit/.style={draw, circle, fill=solarizedRebase02,
+                     inner sep=0.5pt, minimum width=0.5em,
+                     font={\tiny\sffamily}},
+      connections/.style={draw}
+     ]
+     \matrix [column sep={1em,between origins}, row sep={1em,between origins},
+              ampersand replacement=\&]%
+     {
+      \ghost{P 9}; \\
+      \ghost{P 8}; \\
+      \node[commit] (P 7) {7}; \\
+      \node[commit] (P 6) {6}; \\
+      \node[commit] (P 5) {5}; \\
+     };
+     \node[anchor=south, align=center, font={\scriptsize}] at (P 9.north)
+      (P repository) {Local\\Repository};
+     \foreach \x in {6,...,7} {
+      \pgfmathparse{int(\x-1)}
+      \connect{P \pgfmathresult}{P \x};
+     }
+     \path[connections, densely dotted] (P 5.south) -- +(0,-0.5em);
+    \end{scope}
+    \begin{scope}[
+      every node/.style={anchor=west, minimum height=1em,
+                         font={\tiny\ttfamily}, inner sep=2.5pt},
+      every edge/.style={thick},
+      root/.style={},
+      grow via three points={one child at (0.25,-0.75em) and
+                             two children at (0.25,-0.75em) and (0.25,-1.25em)},
+      edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}
+     ]
+     \node[anchor=west, font={\scriptsize\sffamily}, align=center, xshift=1em]
+      at (P repository.east) (P work) {Working\\Directory};
+     \node [root, anchor=north] at (P work.south) (P root) {specfem3d\_globe}
+      child { node {DATA} }
+      child { node {doc} }
+      child { node {EXAMPLES} }
+      child { node {setup} }
+      child { node {src} }
+      child { node {utils} }
+      child { node {\dots} };
+    \end{scope}
+    \node[anchor=south, shift={(0.5em,1em)}] at (P repository.east)
+     {Piero's Computer};
+    \draw<2->[->] (P 7.east) to[out=0,in=180] (P root.west);
+   \end{tikzpicture}
+  \end{column}
+ \end{columns}
+
+ \begin{tikzpicture}[
+   remember picture, overlay,
+   path/.style={thick, ->},
+   label/.style={decorate, decoration={text along path, text align=center,
+                                       text color=solarizedRebase0,
+                                       raise=1pt,
+                                       text={git clone}}}
+  ]
+  \draw<2>[path] (repository) to[out=0,in=180] (P repository.west);
+  \draw<2>[label] (repository) to[out=0,in=180] (P repository.west);
+  \draw<3->[path,|-|] (repository) to[out=0,in=180] (P repository.west);
+  \draw<4->[path] (repository) to[out=0,in=180] (E repository.west);
+  \draw<4->[label] (repository) to[out=0,in=180] (E repository.west);
+ \end{tikzpicture}
+\end{frame}
+
+%
+% Git Commit
+%
+
+\begin{frame}
+ \frametitle{Version Control Concepts with Git}
+ \framesubtitle{Commits}
+
+ \begin{columns}
+  \begin{column}{0.3\textwidth}
+   \begin{tikzpicture}[
+     remember picture,
+     show background rectangle,
+     commit/.style={draw, rectangle, rounded corners, fill=solarizedRebase02,
+                    inner sep=1pt, minimum width=1.5em},
+     connections/.style={draw}
+    ]
+    \matrix [column sep={1em,between origins}, row sep={1.5em,between origins},
+             ampersand replacement=\&]%
+    {
+     \ghost{name}; \\
+     \node[commit, visible on=<5->] (10) {10}; \\
+     \node[commit] (9) {9}; \\
+     \node[commit] (8) {8}; \\
+     \node[commit] (7) {7}; \\
+     \node[commit] (6) {6}; \\
+     \node[commit] (5) {5}; \\
+     \node[commit] (4) {4}; \\
+     \node[commit] (3) {3}; \\
+     \node[commit] (2) {2}; \\
+     \ghost{1}; \\
+    };
+    \node[anchor=south,align=center] (repository) at (name)
+     {Central\\Repository};
+    \foreach \x in {3,...,9} {
+     \pgfmathparse{int(\x-1)}
+     \connect{\pgfmathresult}{\x};
+    }
+    \path[connections, densely dashed] (1) -- (2);
+    \path[connections, visible on=<5->] (9) -- (10);
+   \end{tikzpicture}
+  \end{column}
+  \begin{column}{0.6\textwidth}
+   \begin{tikzpicture}[%
+      remember picture,
+      show background rectangle
+    ]
+    \begin{scope}[
+      commit/.style={draw, rectangle, rounded corners, fill=solarizedRebase02,
+                     inner sep=1pt, minimum height=0.75em, minimum width=1em,
+                     font={\tiny\sffamily}},
+      connections/.style={draw}
+     ]
+     \matrix [column sep={1em,between origins}, row sep={1.2em,between origins},
+              ampersand replacement=\&]%
+     {
+      \node[commit, visible on=<3->] (E 10) {10}; \\
+      \node[commit] (E 9) {9}; \\
+      \node[commit] (E 8) {8}; \\
+      \node[commit] (E 7) {7}; \\
+      \node[commit] (E 6) {6}; \\
+      \node[commit] (E 5) {5}; \\
+     };
+     \node[anchor=south, align=center, font={\scriptsize}] at (E 10.north)
+      (E repository) {Local\\Repository};
+     \foreach \x in {6,...,9} {
+      \pgfmathparse{int(\x-1)}
+      \connect{E \pgfmathresult}{E \x};
+     }
+     \path[connections, densely dotted] (E 5.south) -- +(0,-0.5em);
+     \path[connections, visible on=<3->] (E 9) -- (E 10);
+    \end{scope}
+    \begin{scope}[
+      every node/.style={anchor=west, minimum height=1em,
+                         font={\tiny\ttfamily}, inner sep=2.5pt},
+      every edge/.style={thick},
+      root/.style={},
+      grow via three points={one child at (0.25,-0.75em) and
+                             two children at (0.25,-0.75em) and (0.25,-1.25em)},
+      edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}
+     ]
+     \node[anchor=west, font={\scriptsize\sffamily}, align=center, xshift=1em]
+      at (E repository.east) (E work) {Working\\Directory};
+     \node [root, anchor=north] at (E work.south) (E root) {specfem3d\_globe}
+      child { node {DATA} }
+      child { node {doc} }
+      child { node {EXAMPLES} }
+      child { node {setup} }
+      child { node {src} }
+      child { node {utils} }
+      child { node (E last) {\dots} };
+    \end{scope}
+    \begin{scope}[
+      visible on=<2-3>,
+      every node/.style={anchor=west, minimum height=1em,
+                         font={\tiny\ttfamily}, inner sep=2.5pt},
+      every edge/.style={thick},
+      root/.style={},
+      label/.style={decorate, decoration={text along path, text align=center,
+                                          text color=solarizedRebase0}},
+      grow via three points={one child at (0.25,-0.75em) and
+                             two children at (0.25,-0.75em) and (0.25,-1.25em)},
+      edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}
+     ]
+    \node[anchor=north, font={\scriptsize\sffamily}, align=center, xshift=1em]
+     at (E last.south) (M work) {Modified\\Working Directory};
+    \node [root, anchor=north] at (M work.south) (M root) {specfem3d\_globe}
+     child { node {DATA} }
+     child { node {doc} }
+     child { node {EXAMPLES} }
+     child { node {setup} }
+     child { node {\itshape src} }
+     child { node {utils} }
+     child { node {\dots} };
+    \end{scope}
+
+    \draw<1-2>[->] (E 9.east) to[out=0,in=180] (E root.west);
+    \draw<3>[->, dashed] (E 9.east) to[out=0,in=180] (E root.west);
+
+    \node[anchor=south, shift={(1em,1em)}] at (E repository.east)
+     {Elliott's Computer};
+   \end{tikzpicture}
+  \end{column}
+ \end{columns}
+
+ \begin{tikzpicture}[
+    remember picture, overlay,
+    path/.style={thick, ->},
+    label/.style={decorate, decoration={text along path, text align=center,
+                                        text color=solarizedRebase0}}
+  ]
+  \draw<1-4>[path,|-|] (repository.east) to[out=0,in=180] (E repository.west);
+  \draw<2-3>[->] (E root.east) to[out=0,in=0] (M root.east);
+  \draw<2>[label, decoration={raise=1pt,
+                              text={|\scriptsize| Editing~~~~~}}]
+   (E root.east) to[out=0,in=0] (M root.east);
+  \draw<3>[->] (M root.west) to[out=180,in=0] (E 10.east);
+  \draw<3>[label, decoration={raise=-0.75em,
+                              text={|\scriptsize| git commit -a}}]
+   (E 10.east) to[out=0,in=180] (M root.west);
+  \draw<4->[->] (E 10.east) to[out=0,in=180] (E root.west);
+  \draw<5>[path] (E repository.west) to[out=180,in=0] (repository.east);
+  \draw<5>[label, decoration={raise=1pt, text={git push}}]
+   (repository.east) to[out=0,in=180] (E repository.west);
  \end{tikzpicture}
 \end{frame}
 
