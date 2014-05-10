@@ -287,8 +287,9 @@
                                         raise=1pt,
                                         text={svn checkout}}}
   ]
-  \draw<2->[path] (7.east) to[out=0,in=180] (P root.west);
+  \draw<2>[path] (7.east) to[out=0,in=180] (P root.west);
   \draw<2>[label] (7.east) to[out=0,in=180] (P root.west);
+  \draw<3->[path] (P root.west) to[out=180,in=0] (7.east);
   \draw<4->[path] (9.east) to[out=0,in=180] (E root.west);
   \draw<4->[label] (9.east) to[out=0,in=180] (E root.west);
  \end{tikzpicture}
@@ -393,15 +394,15 @@
     label/.style={decorate, decoration={text along path, text align=center,
                                         text color=solarizedRebase0}}
   ]
-  \draw<1-2>[path] (9.east) to[out=0,in=180] (E root.west);
+  \draw<1-2>[path] (E root.west) to[out=180,in=0] (9.east);
   \draw<2-3>[path] (E root.east) to[out=0,in=0] (M root.east);
   \draw<2>[label, decoration={raise=1pt, text={Editing}}]
    (E root.east) to[out=0,in=0] (M root.east);
-  \draw<3>[path, dashed] (9.east) to[out=0,in=180] (E root.west);
+  \draw<3>[path, dashed] (E root.west) to[out=180,in=0] (9.east);
   \draw<3>[path] (M root.west) to[out=180,in=0] (10.east);
   \draw<3>[label, decoration={raise=-1em, text={svn commit}}]
    (10.east) to[out=0,in=180] (M root.west);
-  \draw<4->[path] (10.east) to[out=0,in=180] (E root.west);
+  \draw<4->[path] (E root.west) to[out=180,in=0] (10.east);
  \end{tikzpicture}
 \end{frame}
 
@@ -482,11 +483,11 @@
                                         raise=1pt,
                                         text={svn update}}}
   ]
-  \draw<1>[path] (7.east) to[out=0,in=180] (P root.west);
-  \draw<2>[path, dashed] (7.east) to[out=0,in=180] (P root.west);
+  \draw<1>[path] (P root.west) to[out=180,in=0] (7.east);
+  \draw<2>[path, dashed] (P root.west) to[out=180,in=0] (7.east);
   \draw<2>[path] (10.east) to[out=0,in=180] (P root.west);
   \draw<2>[label] (10.east) to[out=0,in=180] (P root.west);
-  \draw<3>[path] (10.east) to[out=0,in=180] (P root.west);
+  \draw<3>[path] (P root.west) to[out=180,in=0] (10.east);
  \end{tikzpicture}
 \end{frame}
 
@@ -778,8 +779,9 @@
      child { node {\dots} };
     \end{scope}
 
-    \draw<1-2>[->] (E 9.east) to[out=0,in=180] (E root.west);
-    \draw<3>[->, dashed] (E 9.east) to[out=0,in=180] (E root.west);
+    \draw<1-2>[->] (E root.west) to[out=180,in=0] (E 9.east);
+    \draw<3>[->, dashed] (E root.west) to[out=180,in=0] (E 9.east);
+    \draw<4->[->] (E root.west) to[out=180,in=0] (E 10.east);
 
     \node[anchor=south, shift={(1em,1em)}] at (E repository.east)
      {Elliott's Computer};
@@ -800,9 +802,8 @@
    (E root.east) to[out=0,in=0] (M root.east);
   \draw<3>[->] (M root.west) to[out=180,in=0] (E 10.east);
   \draw<3>[label, decoration={raise=-0.75em,
-                              text={|\scriptsize| git commit -a}}]
+                              text={|\scriptsize| git commit}}]
    (E 10.east) to[out=0,in=180] (M root.west);
-  \draw<4->[->] (E 10.east) to[out=0,in=180] (E root.west);
   \draw<5>[path] (E repository.west) to[out=180,in=0] (repository.east);
   \draw<5>[label, decoration={raise=1pt, text={git push}}]
    (repository.east) to[out=0,in=180] (E repository.west);
@@ -908,9 +909,11 @@
     \end{scope}
     \node[anchor=south, shift={(1.5em,1em)}] at (P repository.east)
      {Piero's Computer};
-    \draw<1-2>[->] (P 7.east) to[out=0,in=180] (P root.west);
-    \draw<3>[->, dashed] (P 7.east) to[out=0,in=180] (P root.west);
-    \draw<3,4>[->] (P 10.east) to[out=0,in=180] (P root.west);
+
+    \draw<1-2>[->] (P root.west) to[out=180,in=0] (P 7.east);
+    \draw<3>[->, dashed] (P root.west) to[out=180,in=0] (P 7.east);
+    \draw<3>[->] (P 10.east) to[out=0,in=180] (P root.west);
+    \draw<4>[->] (P root.west) to[out=180,in=0] (P 10.east);
    \end{tikzpicture}
   \end{column}
  \end{columns}
