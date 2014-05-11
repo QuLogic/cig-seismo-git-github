@@ -9,6 +9,7 @@
 
 \useinnertheme{rectangles}
 \usecolortheme[accent=red]{solarized}
+\setbeamercolor{description item}{fg=solarizedAccent}
 \beamertemplatenavigationsymbolsempty
 \setbeamertemplate{footline}[frame number]
 
@@ -182,6 +183,27 @@
 \end{frame}
 
 \subsection{Version Control Basics}
+
+\begin{frame}
+ \frametitle{Version Control Concepts}
+
+ \begin{description}[Operations]
+  \item[Repository] Complete copy of entire history of project\\
+                    Files, Changes, Author names, Dates, etc.
+  \item[Commit] Atomic record of changes to files, Author (and committer) of
+                change, Date
+  \item[Branch] Name for a commit that follows new commits (e.g.,
+                amazing-new-feature)
+  \item[Tag] Immovable name for a commit (e.g., v1.0)
+  \item[Operations]
+   \begin{itemize}
+    \item Clone --- Download a copy of history
+    \item Commit --- Record your changes
+    \item Fetch --- Download new changes
+    \item Merge --- Combine new changes with existing files
+   \end{itemize}
+ \end{description}
+\end{frame}
 
 %
 % SVN Checkout
