@@ -107,6 +107,7 @@
     \item Commit --- Record your changes
     \item Fetch --- Download new changes
     \item Merge --- Combine new changes with existing files
+    \item \ldots
    \end{itemize}
  \end{description}
 \end{frame}
@@ -882,4 +883,49 @@
   \draw<3>[label, decoration={text={|\scriptsize| git merge}}]
    (P 10.east) to[out=0,in=180] (P root.west);
  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}
+ \frametitle{Git Basics}
+ \framesubtitle{Commits}
+
+ \begin{itemize}
+  \item Denoted by SHA1 hash, e.g., cd83b686a7c6014e132933f685157d43151a665e
+        (can be shortened); based on:
+   \begin{itemize}
+    \item Tree of files
+    \item Parent commit(s)
+    \item Commit message
+    \item Author name/email/timestamp
+    \item Committer name/email/timestamp
+   \end{itemize}
+  \pause
+  \item Form a Directed Acyclic Graph, referenced by:
+   \begin{itemize}
+    \item Child commits
+    \item Branches
+    \item Tags
+    \item HEAD (Working Directory link)
+    \item The reflog (advanced, but useful at times)
+   \end{itemize}
+ \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+ \frametitle{Git Basics}
+ \framesubtitle{Configuration}
+
+ \begin{block}{User Name}
+  \begin{verbatim}
+$ git config --global user.name 'User Name'
+$ git config --global user.email 'email@example.com'
+  \end{verbatim}
+ \end{block}
+ \pause
+ \begin{block}{Conveniences}
+  \begin{verbatim}
+$ git config --global color.ui auto
+$ git config --global push.default simple
+  \end{verbatim}
+ \end{block}
 \end{frame}
