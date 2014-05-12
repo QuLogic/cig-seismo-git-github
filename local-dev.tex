@@ -123,6 +123,31 @@
 \end{frame}
 
 \begin{frame}[fragile]
+ \frametitle{Using CIG Code from Git}
+ \framesubtitle{Feature Branches}
+
+ \begin{itemize}
+  \item Short-lived branches that contain work on a single feature
+  \item Recommended (but not required) development workflow
+  \item Completely local (unless explicitly shared)
+  \item Allows you to switch between work topics quickly
+ \end{itemize}
+
+ \begin{exampleblock}{Creating a Feature Branch}
+  \vspace{-1em}
+  \begin{semiverbatim}
+\comment{Create and switch to branch feature-one}
+\command{git checkout -b feature-one devel}
+Switched to branch `feature-one'
+
+\comment{Switch  back to branch devel}
+\command{git checkout devel}
+Switched to branch `devel'
+\end{semiverbatim}
+ \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
  \frametitle{Local Development}
  \framesubtitle{Reviewing Changes}
 
@@ -354,4 +379,36 @@ separating the summary from the body is critical
 rebase can get confused if you run the two together.
 \end{verbatim}
  \end{block}
+\end{frame}
+
+\begin{frame}[fragile,t]
+ \frametitle{Using CIG Code from Git}
+
+ \begin{itemize}
+  \item Merging may cause \alert{conflicts} --- when upstream changes lines you
+        have also changed
+  \item Produces conflict markers \alert{<{}<{}<===>{}>{}>} in conflicting files
+  \item Status shows conflicting files
+  \item Must be added to index to resolve conflict
+ \end{itemize}
+
+ \begin{exampleblock}<only@1>{Conflict Status}
+  \begin{semiverbatim}
+\command{git status}
+...
+ Unmerged paths:
+    (use "git add ..." to mark resolution)
+
+  \hiRed{both modified:   src/specfem3D/specfem3D.F90}
+\end{semiverbatim}
+ \end{exampleblock}
+
+ \begin{exampleblock}<only@2->{Resolving Conflicts}
+  \begin{semiverbatim}
+\command{git mergetool \only<3->{-{}-tool=meld}}
+
+\only<4>{\comment{Permanent tool setting}}
+\only<4>{\command{git config -{}-global merge.tool meld}}
+\end{semiverbatim}
+ \end{exampleblock}
 \end{frame}
