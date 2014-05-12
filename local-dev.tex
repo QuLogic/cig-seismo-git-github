@@ -412,3 +412,16 @@ rebase can get confused if you run the two together.
 \end{semiverbatim}
  \end{exampleblock}
 \end{frame}
+
+\begin{frame}
+ \frametitle{Submodules (or, ``Why git clone -{}-recursive?'')}
+
+ \begin{itemize}
+  \item Completely \alert{independent} repositories referenced in another
+  \item Changes, commits, etc.{} are local to submodule
+  \item Parent just sees a \textit{single} directory --- always treat it as such
+  \item \texttt{git fetch} in parent will automatically fetch submodules
+  \item \texttt{git fetch} in submodule will \textit{not} fetch parent
+  \item \texttt{git submodule update} to keep submodule in sync with parent
+ \end{itemize}
+\end{frame}
