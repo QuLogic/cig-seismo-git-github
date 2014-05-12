@@ -133,7 +133,7 @@
   \item Allows you to switch between work topics quickly
  \end{itemize}
 
- \begin{exampleblock}{Creating a Feature Branch}
+ \begin{exampleblock}<only@1>{Creating a Feature Branch}
   \vspace{-1em}
   \begin{semiverbatim}
 \comment{Create and switch to branch feature-one}
@@ -143,6 +143,19 @@ Switched to branch `feature-one'
 \comment{Switch  back to branch devel}
 \command{git checkout devel}
 Switched to branch `devel'
+\end{semiverbatim}
+ \end{exampleblock}
+
+ \begin{exampleblock}<only@2>{Deleting a Feature Branch}
+  \vspace{-1em}
+  \begin{semiverbatim}
+\comment{Switch back to branch devel}
+\command{git checkout devel}
+Switched to branch `devel'
+
+\comment{Delete branch feature-one}
+\command{git branch -d feature-one}
+Deleted branch feature-one (was 6106a0c).
 \end{semiverbatim}
  \end{exampleblock}
 \end{frame}
