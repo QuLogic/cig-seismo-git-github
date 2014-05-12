@@ -915,16 +915,20 @@
  \frametitle{Git Basics}
  \framesubtitle{Remotes}
 
- Remotes are references to other repositories; URIs can be:
  \begin{itemize}
-  \item HTTPS:\\
-    {\small \url{https://github.com/geodynamics/specfem3d_globe.git}}
-  \item SSH:\\
-    \url{git@github.com:geodynamics/specfem3d_globe.git}
-  \item File:\\
-    \url{file:///path/to/specfem3d_globe}
-  \item Local Path:\\
-    \url{/home/elliott/specfem3d_globe}
+  \item \alert{Remotes} are references to other repositories; URIs can be:
+   \begin{itemize}
+    \item HTTPS:\\
+      {\small \url{https://github.com/geodynamics/specfem3d_globe.git}}
+    \item SSH:\\
+      \url{git@github.com:geodynamics/specfem3d_globe.git}
+    \item File:\\
+      \url{file:///path/to/specfem3d_globe}
+    \item Local Path:\\
+      \url{/home/elliott/specfem3d_globe}
+   \end{itemize}
+  \item Creates additional branches in local repository named
+        \texttt{<remote name>/<remote branch>}
  \end{itemize}
 \end{frame}
 
