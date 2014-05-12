@@ -14,9 +14,12 @@
 \setbeamertemplate{footline}[frame number]
 
 % Shell highlighting
-\newcommand{\command}[1]{{\color{solarizedAccent}\$}
-                         {\color{solarizedRebase2}#1}}
+\newcommand{\command}[1]{\textcolor{solarizedAccent}{\$}
+                         \textcolor{solarizedRebase2}{#1}}
 \newcommand{\comment}[1]{\textit{\# #1}}
+\newcommand{\hiRed}[1]{\textcolor{solarizedRed}{#1}}
+\newcommand{\hiGreen}[1]{\textcolor{solarizedGreen}{#1}}
+\newcommand{\hiBlue}[1]{\textcolor{solarizedBlue}{#1}}
 
 % DAG commands
 \newcommand\commit[2]{\node[commit] (#1) {};%
@@ -102,7 +105,7 @@
 
 \input{using-cig}
 
-\section{Local Development}
+\input{local-dev}
 
 \section{Contributing Code}
 
