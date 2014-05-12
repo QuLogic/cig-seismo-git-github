@@ -911,6 +911,186 @@
  \end{itemize}
 \end{frame}
 
+\begin{frame}
+ \frametitle{Git Basics}
+ \framesubtitle{Remotes}
+
+ Remotes are references to other repositories; URIs can be:
+ \begin{itemize}
+  \item HTTPS:\\
+    {\small \url{https://github.com/geodynamics/specfem3d_globe.git}}
+  \item SSH:\\
+    \url{git@github.com:geodynamics/specfem3d_globe.git}
+  \item File:\\
+    \url{file:///path/to/specfem3d_globe}
+  \item Local Path:\\
+    \url{/home/elliott/specfem3d_globe}
+ \end{itemize}
+\end{frame}
+
+\begin{frame}
+ \frametitle{Git Basics}
+ \framesubtitle{Remotes}
+
+ \begin{columns}
+  \begin{column}{0.3\textwidth}
+   \begin{tikzpicture}[
+     remember picture,
+     show background rectangle,
+     commit/.style={draw, rectangle, rounded corners, fill=solarizedRebase02,
+                    inner sep=1pt, minimum width=1.5em},
+     connections/.style={draw}
+    ]
+    \matrix [column sep={1em,between origins}, row sep={1.5em,between origins},
+             ampersand replacement=\&]%
+    {
+     \ghost{name}; \\
+     \ghost{10}; \\
+     \node[commit] (9) {9}; \\
+     \node[commit] (8) {8}; \\
+     \node[commit] (7) {7}; \\
+     \node[commit] (6) {6}; \\
+     \node[commit] (5) {5}; \\
+     \node[commit] (4) {4}; \\
+     \node[commit] (3) {3}; \\
+     \node[commit] (2) {2}; \\
+     \ghost{1}; \\
+    };
+    \node[anchor=south, align=center] (repository) at (name)
+     {Central\\Repository};
+    \foreach \x in {3,...,9} {
+     \pgfmathparse{int(\x-1)}
+     \connect{\pgfmathresult}{\x};
+    }
+    \path[connections, densely dashed] (1) -- (2);
+   \end{tikzpicture}
+  \end{column}
+  \begin{column}{0.6\textwidth}
+   \begin{tikzpicture}[%
+     remember picture,
+     show background rectangle
+    ]
+    \begin{scope}[
+      commit/.style={draw, circle, fill=solarizedRebase02,
+                     inner sep=0.5pt, minimum width=0.5em,
+                     font={\tiny\sffamily}},
+      connections/.style={draw}
+     ]
+     \matrix [column sep={1em,between origins}, row sep={1em,between origins},
+              ampersand replacement=\&]%
+     {
+      \node[commit] (E 9) {9}; \\
+      \node[commit] (E 8) {8}; \\
+      \node[commit] (E 7) {7}; \\
+      \node[commit] (E 6) {6}; \\
+      \node[commit] (E 5) {5}; \\
+     };
+     \node[anchor=south, align=center, font={\scriptsize}] at (E 9.north)
+      (E repository) {Local\\Repository};
+     \foreach \x in {6,...,9} {
+      \pgfmathparse{int(\x-1)}
+      \connect{E \pgfmathresult}{E \x};
+     }
+     \path[connections, densely dotted] (E 5.south) -- +(0,-0.5em);
+    \end{scope}
+    \begin{scope}[
+      every node/.style={anchor=west, minimum height=1em,
+                         font={\tiny\ttfamily}, inner sep=2.5pt},
+      every edge/.style={thick},
+      root/.style={},
+      grow via three points={one child at (0.25,-0.75em) and
+                             two children at (0.25,-.75em) and (0.25,-1.25em)},
+      edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}
+     ]
+     \node[anchor=west, font={\scriptsize\sffamily}, align=center, xshift=1em]
+      at (E repository.east) (E work) {Working\\Directory};
+     \node [root, anchor=north] at (E work.south) (E root) {specfem3d\_globe}
+      child { node {DATA} }
+      child { node {doc} }
+      child { node {EXAMPLES} }
+      child { node {setup} }
+      child { node {src} }
+      child { node {utils} }
+      child { node {\dots} };
+    \end{scope}
+    \node[anchor=south, shift={(0.5em,1em)}] at (E repository.east)
+     {Elliott's Computer};
+    \draw[->] (E 9.east) to[out=0,in=180] (E root.west);
+   \end{tikzpicture}
+
+   \hfill
+   \begin{tikzpicture}[%
+     remember picture,
+     show background rectangle
+    ]
+    \begin{scope}[
+      commit/.style={draw, circle, fill=solarizedRebase02,
+                     inner sep=0.5pt, minimum width=0.5em,
+                     font={\tiny\sffamily}},
+      connections/.style={draw}
+     ]
+     \matrix [column sep={1em,between origins}, row sep={1em,between origins},
+              ampersand replacement=\&]%
+     {
+      \node[commit] (P 9) {9}; \\
+      \node[commit] (P 8) {8}; \\
+      \node[commit] (P 7) {7}; \\
+      \node[commit] (P 6) {6}; \\
+      \node[commit] (P 5) {5}; \\
+     };
+     \node[anchor=south, align=center, font={\scriptsize}] at (P 9.north)
+      (P repository) {Local\\Repository};
+     \foreach \x in {6,...,9} {
+      \pgfmathparse{int(\x-1)}
+      \connect{P \pgfmathresult}{P \x};
+     }
+     \path[connections, densely dotted] (P 5.south) -- +(0,-0.5em);
+    \end{scope}
+    \begin{scope}[
+      every node/.style={anchor=west, minimum height=1em,
+                         font={\tiny\ttfamily}, inner sep=2.5pt},
+      every edge/.style={thick},
+      root/.style={},
+      grow via three points={one child at (0.25,-0.75em) and
+                             two children at (0.25,-0.75em) and (0.25,-1.25em)},
+      edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}
+     ]
+     \node[anchor=west, font={\scriptsize\sffamily}, align=center, xshift=1em]
+      at (P repository.east) (P work) {Working\\Directory};
+     \node [root, anchor=north] at (P work.south) (P root) {specfem3d\_globe}
+      child { node {DATA} }
+      child { node {doc} }
+      child { node {EXAMPLES} }
+      child { node {setup} }
+      child { node {src} }
+      child { node {utils} }
+      child { node {\dots} };
+    \end{scope}
+    \node[anchor=south, shift={(0.5em,1em)}] at (P repository.east)
+     {Piero's Computer};
+    \draw[->] (P 9.east) to[out=0,in=180] (P root.west);
+   \end{tikzpicture}
+  \end{column}
+ \end{columns}
+
+ \begin{tikzpicture}[
+   remember picture, overlay,
+   path/.style={thick, ->},
+   label/.style={decorate, decoration={text along path, text align=center,
+                                       text color=solarizedRebase0,
+                                       raise=1pt,
+                                       text={remote}}}
+  ]
+  \draw<1>[path] (P repository.west) to[out=180,in=0] (repository);
+  \draw<1>[label] (repository) to[out=0,in=180] (P repository.west);
+  \draw<1>[path] (E repository.west) to[out=180,in=0] (repository);
+  \draw<1>[label] (repository) to[out=0,in=180] (E repository.west);
+  \draw<2>[path,<->] (P repository.west) to[out=180,in=180] (E repository.west);
+  \draw<2>[label, decoration={raise=-1em}]
+   (E repository.west) to[out=180,in=180] (P repository.west);
+ \end{tikzpicture}
+\end{frame}
+
 \begin{frame}[fragile]
  \frametitle{Git Basics}
  \framesubtitle{Configuration}
@@ -919,13 +1099,13 @@
   \begin{verbatim}
 $ git config --global user.name 'User Name'
 $ git config --global user.email 'email@example.com'
-  \end{verbatim}
+\end{verbatim}
  \end{block}
  \pause
  \begin{block}{Conveniences}
   \begin{verbatim}
 $ git config --global color.ui auto
 $ git config --global push.default simple
-  \end{verbatim}
+\end{verbatim}
  \end{block}
 \end{frame}
