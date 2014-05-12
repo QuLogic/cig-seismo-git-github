@@ -13,6 +13,12 @@
 \beamertemplatenavigationsymbolsempty
 \setbeamertemplate{footline}[frame number]
 
+% Shell highlighting
+\newcommand{\command}[1]{{\color{solarizedAccent}\$}
+                         {\color{solarizedRebase2}#1}}
+\newcommand{\comment}[1]{\textit{\# #1}}
+
+% DAG commands
 \newcommand\commit[2]{\node[commit] (#1) {};%
                       \node[clabel] (#1 label) at (#1) {\texttt{#1}: #2};}
 \newcommand\ghost[1]{\coordinate (#1);}
