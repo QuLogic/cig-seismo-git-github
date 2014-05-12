@@ -25,6 +25,76 @@
     \draw[solarizedAccent, thick, rounded corners]
      (9.1,0.3) rectangle (10.0,0.6);
    \end{tikzpicture}
+   \begin{columns}
+    \begin{column}{0.4\framewidth}
+     \begin{tikzpicture}[
+       remember picture,
+       show background rectangle,
+       commit/.style={draw, rectangle, rounded corners, fill=solarizedRebase02,
+                      inner sep=1pt, minimum width=1.5em},
+       connections/.style={draw}
+      ]
+      \matrix [column sep={1em,between origins},
+               row sep={1.5em,between origins},
+               ampersand replacement=\&]%
+      {
+       \node[commit] (9) {9}; \\
+       \node[commit] (8) {8}; \\
+       \node[commit] (7) {7}; \\
+       \node[commit] (6) {6}; \\
+       \node[commit] (5) {5}; \\
+       \ghost{4}; \\
+      };
+      \node[anchor=south, align=center] (CIG repository) at (9.north)
+       {Geodynamics\\Repository};
+      \foreach \x in {6,...,9} {
+       \pgfmathparse{int(\x-1)}
+       \connect{\pgfmathresult}{\x};
+      }
+      \path[connections, densely dashed] (4) -- (5);
+     \end{tikzpicture}
+    \end{column}
+    \begin{column}{0.3\textwidth}
+     \begin{tikzpicture}[
+       remember picture,
+       show background rectangle,
+       commit/.style={draw, rectangle, rounded corners, fill=solarizedRebase02,
+                      inner sep=1pt, minimum width=1.5em},
+       connections/.style={draw}
+      ]
+      \matrix [column sep={1em,between origins},
+               row sep={1.5em,between origins},
+               ampersand replacement=\&]%
+      {
+       \node[commit] (9) {9}; \\
+       \node[commit] (8) {8}; \\
+       \node[commit] (7) {7}; \\
+       \node[commit] (6) {6}; \\
+       \node[commit] (5) {5}; \\
+       \ghost{4}; \\
+      };
+      \node[anchor=south, align=center] (My repository) at (9.north)
+       {Personal\\Repository};
+      \foreach \x in {6,...,9} {
+       \pgfmathparse{int(\x-1)}
+       \connect{\pgfmathresult}{\x};
+      }
+      \path[connections, densely dashed] (4) -- (5);
+     \end{tikzpicture}
+    \end{column}
+   \end{columns}
+
+   \begin{tikzpicture}[
+     remember picture, overlay,
+     path/.style={thick, ->},
+     label/.style={decorate, decoration={text along path, text align=center,
+                                         text color=solarizedRebase0,
+                                         raise=1pt,
+                                         text={Fork}}}
+    ]
+    \draw[path] (CIG repository) to[out=0,in=180] (My repository);
+    \draw[label] (CIG repository) to[out=0,in=180] (My repository);
+   \end{tikzpicture}
  \end{itemize}
 \end{frame}
 
@@ -111,6 +181,91 @@ index 3ba52f2..2b619bf 100644
    \item \texttt{git diff} compares index with working directory
    \item \texttt{git diff -{}-cached} compares HEAD with index
   \end{itemize}
+  \begin{tikzpicture}[%
+    remember picture,
+    show background rectangle,
+   ]
+   \begin{scope}[
+     commit/.style={draw, rectangle, rounded corners, fill=solarizedRebase02,
+                    inner sep=1pt, minimum height=0.75em, minimum width=1em,
+                    font={\tiny\sffamily}},
+     connections/.style={draw}
+    ]
+    \matrix [column sep={1em,between origins}, row sep={1em,between origins},
+             ampersand replacement=\&]%
+    {
+     \node[commit,visible on=<4->] (10) {\alert<4>{10}}; \\
+     \node[commit] (9) {9}; \\
+     \node[commit] (8) {8}; \\
+     \node[commit] (7) {7}; \\
+     \node[commit] (6) {6}; \\
+     \node[commit] (5) {5}; \\
+     \ghost{4}; \\
+    };
+    \node[anchor=south, align=center, font={\scriptsize}] at (10.north)
+     (repository) {Local\\Repository};
+    \foreach \x in {6,...,9} {
+     \pgfmathparse{int(\x-1)}
+     \connect{\pgfmathresult}{\x};
+    }
+    \path[connections, densely dotted] (4) -- (5);
+    \path[connections, visible on=<4->] (9) -- (10);
+   \end{scope}
+   \begin{scope}[
+     every node/.style={anchor=west, minimum height=1em,
+                        font={\tiny\ttfamily}, inner sep=2.5pt},
+     every edge/.style={thick},
+     root/.style={},
+     grow via three points={one child at (0.25,-0.75em) and
+                            two children at (0.25,-0.75em) and (0.25,-1.25em)},
+     edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}
+    ]
+    \node[anchor=west, font={\scriptsize\sffamily}, align=center, xshift=3em]
+     at (repository.east) (index) {Index};
+    \node [root, anchor=north, visible on=<3-4>] at (index.south) (index root)
+     {src};
+   \end{scope}
+   \begin{scope}[
+     every node/.style={anchor=west, minimum height=1em,
+                        font={\tiny\ttfamily}, inner sep=2.5pt},
+     every edge/.style={thick},
+     root/.style={},
+     grow via three points={one child at (0.25,-0.75em) and
+                            two children at (0.25,-0.75em) and (0.25,-1.25em)},
+     edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}
+    ]
+    \node[anchor=west, font={\scriptsize\sffamily}, align=center, xshift=3em]
+     at (index.east) (work) {Working\\Directory};
+    \node [root, anchor=north] at (work.south) (work root) {specfem3d\_globe}
+     child { node {DATA} }
+     child { node {doc} }
+     child { node {EXAMPLES} }
+     child { node {setup} }
+     child { node (work src) {\alert<2-3>{src}} }
+     child { node {utils} }
+     child { node {\dots} };
+   \end{scope}
+   \node[anchor=south, shift={(0em,1em)}] at (index.north)
+    {Information Flow};
+
+   \begin{scope}[
+     path/.style={->},
+     label/.style={decorate, decoration={text along path, text align=center,
+                                         text color=solarizedRebase0,
+                                         raise=1pt}}
+    ]
+    \draw<1>[path] (9.east) to[out=0,in=180] (work root.west);
+    \draw<1>[label, decoration={text={|\tiny| git checkout}}]
+     (9.east) to[out=0,in=180] (work root.west);
+    \draw<3>[path] (work src.west) to[out=180,in=0] (index root.east);
+    \draw<3>[label, decoration={text={|\tiny| git add}}]
+     (index root.east) to[out=0,in=180] (work src.west);
+    \draw<4>[path] (index root.west) to[out=180,in=0] (10.east);
+    \draw<4>[label, decoration={text={|\scriptsize| git commit}}]
+     (10.east) to[out=0,in=180] (index root.west);
+    \draw<5>[dashed] (work root.west) to[out=180,in=0] (10.east);
+   \end{scope}
+  \end{tikzpicture}
  \end{itemize}
 \end{frame}
 
