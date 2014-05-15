@@ -1090,7 +1090,7 @@
   \draw<1>[path] (E repository.west) to[out=180,in=0] (repository);
   \draw<1>[label] (repository) to[out=0,in=180] (E repository.west);
   \draw<2>[path,<->] (P repository.west) to[out=180,in=180] (E repository.west);
-  \draw<2>[label, decoration={raise=-1em}]
+  \draw<2>[label, decoration={raise=-1em, text={(possible) remote}}]
    (E repository.west) to[out=180,in=180] (P repository.west);
  \end{tikzpicture}
 \end{frame}
