@@ -133,9 +133,11 @@
   \item Allows you to switch between work topics quickly
  \end{itemize}
 
+ \begin{minipage}[t][0.45\textheight][t]{0.97\textwidth}
+ \vspace{-1em}
  \begin{exampleblock}<only@1>{Creating a Feature Branch}
   \vspace{-1em}
-  \begin{semiverbatim}
+  \begin{semiverbatim}\small
 \comment{Create and switch to branch feature-one}
 \command{git checkout -b feature-one devel}
 Switched to branch `feature-one'
@@ -148,7 +150,7 @@ Switched to branch `devel'
 
  \begin{exampleblock}<only@2>{Deleting a Feature Branch}
   \vspace{-1em}
-  \begin{semiverbatim}
+  \begin{semiverbatim}\small
 \comment{Switch back to branch devel}
 \command{git checkout devel}
 Switched to branch `devel'
@@ -158,9 +160,10 @@ Switched to branch `devel'
 Deleted branch feature-one (was 6106a0c).
 \end{semiverbatim}
  \end{exampleblock}
+
  \begin{exampleblock}<only@3>{Listing Branches}
   \vspace{-1em}
-  \begin{semiverbatim}
+  \begin{semiverbatim}\small
 \command{git branch}
 * \hiGreen{devel}
   master
@@ -169,7 +172,7 @@ Deleted branch feature-one (was 6106a0c).
 
  \begin{exampleblock}<only@4>{Listing All Branches (including remotes)}
   \vspace{-1em}
-  \begin{semiverbatim}
+  \begin{semiverbatim}\small
 \command{git branch -a}
 * \hiGreen{devel}
   master
@@ -179,6 +182,7 @@ Deleted branch feature-one (was 6106a0c).
   \hiRed{remotes/upstream/master}
 \end{semiverbatim}
  \end{exampleblock}
+ \end{minipage}
 \end{frame}
 
 \begin{frame}[fragile]
@@ -426,8 +430,9 @@ rebase can get confused if you run the two together.
   \item Must be added to index to resolve conflict
  \end{itemize}
 
- \begin{exampleblock}<only@1>{Conflict Status}
-  \begin{semiverbatim}
+ \begin{minipage}[t][0.5\textheight][t]{0.97\textwidth}
+  \begin{exampleblock}<only@1>{Conflict Status\textcolor{solarizedRebase02}{g}}
+   \begin{semiverbatim}
 \command{git status}
 ...
  Unmerged paths:
@@ -435,16 +440,17 @@ rebase can get confused if you run the two together.
 
   \hiRed{both modified:   src/specfem3D/specfem3D.F90}
 \end{semiverbatim}
- \end{exampleblock}
+  \end{exampleblock}
 
- \begin{exampleblock}<only@2->{Resolving Conflicts}
-  \begin{semiverbatim}
+  \begin{exampleblock}<only@2->{Resolving Conflicts}
+   \begin{semiverbatim}
 \command{git mergetool \only<3->{-{}-tool=meld}}
 
 \only<4>{\comment{Permanent tool setting}}
 \only<4>{\command{git config -{}-global merge.tool meld}}
 \end{semiverbatim}
- \end{exampleblock}
+  \end{exampleblock}
+ \end{minipage}
 \end{frame}
 
 \begin{frame}
