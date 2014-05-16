@@ -462,6 +462,31 @@ rebase can get confused if you run the two together.
   \item Parent just sees a \textit{single} directory --- always treat it as such
   \item \texttt{git fetch} in parent will automatically fetch submodules
   \item \texttt{git fetch} in submodule will \textit{not} fetch parent
-  \item \texttt{git submodule update} to keep submodule in sync with parent
+  \item \texttt{git submodule update} to keep submodule in sync with parent's
+        expectations
+ \end{itemize}
+\end{frame}
+
+\begin{frame}
+ \frametitle{Submodules}
+ \framesubtitle{Committing}
+
+ \begin{itemize}
+  \item Specfem1d is only repository that doesn't use submodules
+  \item In global code, \texttt{DATA}, \texttt{EXAMPLES}, and \texttt{m4} are
+        submodules
+  \item Not hosted on GitHub, but on CIG servers
+   \begin{itemize}
+    \item Must obtain push access permission from them
+    \item Must change remote URL to use SSH key (see
+\href{https://github.com/geodynamics/specfem3d/wiki/Git-tips-for-developers%
+\#modifying-the-examples}{wiki})
+   \end{itemize}
+  \item Changes must be committed ``twice''
+   \begin{enumerate}
+    \item Commit changes to submodule (i.e., \texttt{DATA}, \texttt{EXAMPLES},
+          or \texttt{m4})
+    \item Commit new ID in parent
+   \end{enumerate}
  \end{itemize}
 \end{frame}
